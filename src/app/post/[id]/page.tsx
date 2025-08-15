@@ -18,10 +18,6 @@ interface Post {
   downloadLinks: ProviderLinks[];
 }
 
-interface PostPageProps {
-  params: { id: string };
-}
-
 // All the head tag should be imported from linkedom
 
 async function getPost(id: string): Promise<Post | null> {
@@ -124,8 +120,12 @@ async function getPost(id: string): Promise<Post | null> {
 
 export const revalidate = 60; // Revalidate this page every 60 seconds (ISR)
 
-export default async function PostPage({ params }: PostPageProps) {
-  const { id } = params;
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const post = await getPost(id || "");
 
   const { title, videos, downloadLinks } = post || {};
