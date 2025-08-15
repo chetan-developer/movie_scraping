@@ -39,7 +39,9 @@ function MovieGrid({
 
 async function getCards() {
   const res = await fetch("https://www.watch-movies.com.pk", {
-    cache: "no-store", // 🔹 Forces SSR fetch
+    next: {
+      revalidate: 60,
+    },
   });
   const html = await res.text();
 

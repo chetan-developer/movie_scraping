@@ -22,7 +22,9 @@ interface Post {
 
 async function getPost(id: string): Promise<Post | null> {
   const res = await fetch(`https://www.watch-movies.com.pk/${id}`, {
-    cache: "no-store", // 🔹 Forces SSR fetch
+    next: {
+      revalidate: 60,
+    },
   });
   const html = await res.text();
   const { document } = parseHTML(html);
